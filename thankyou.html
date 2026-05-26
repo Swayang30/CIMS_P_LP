@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <!-- Event snippet for Submit lead form (2) conversion page -->
+  <script>
+    gtag('event', 'conversion', {
+      'send_to': 'AW-11150551508/Mpu0CLKr5qscENTT_8Qp',
+      'value': 1.0,
+      'currency': 'INR'
+    });
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You - CIMS Allied Health Science (Paramedical)</title>
+  <meta name="description" content="Thank you for your enquiry. Our admissions team will contact you shortly.">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- TODO: update canonical URL to final live domain -->
+  <link rel="canonical" href="https://cimsgroup.org/allied-health-science/thankyou.html">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    :root {
+      --sbihm-red: #1E3A8F;
+      --sbihm-red-dark: #11224A;
+      --sbihm-red-soft: #EAF0FB;
+      --sbihm-black: #11224A;
+      --sbihm-charcoal: #1F2937;
+      --sbihm-gold: #F4B400;
+      --sbihm-gold-light: #FAD74A;
+      --sbihm-cream: #F5F7FB;
+      --sbihm-paper: #FFFFFF;
+      --sbihm-line: #DDE4EF;
+      --sbihm-mute: #5B6473;
+      --sbihm-success: #2E7D32;
+      --sbihm-shadow: 0 8px 30px rgba(17, 34, 74, 0.08);
+      --sbihm-shadow-lg: 0 20px 60px rgba(17, 34, 74, 0.12);
+      --font-display: 'Bricolage Grotesque', 'Playfair Display', Georgia, serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--sbihm-black);
+      background: var(--sbihm-paper);
+      line-height: 1.6;
+    }
+
+    /* ── Thank-You Page Layout ── */
+    .thankyou-page {
+      min-height: calc(100vh - 120px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1.25rem;
+      background: var(--sbihm-cream);
+    }
+
+    .thankyou-card {
+      background: var(--sbihm-paper);
+      border-radius: 16px;
+      box-shadow: var(--sbihm-shadow-lg);
+      padding: 3rem 2.5rem;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .thankyou-card__icon {
+      width: 72px;
+      height: 72px;
+      background: #E8F5E9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .thankyou-card__icon svg {
+      color: var(--sbihm-success);
+    }
+
+    .thankyou-card__heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw + 0.5rem, 2.25rem);
+      font-weight: 700;
+      color: var(--sbihm-black);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    .thankyou-card__body {
+      font-size: 1.05rem;
+      color: var(--sbihm-charcoal);
+      margin-bottom: 1.75rem;
+      line-height: 1.7;
+    }
+
+    .thankyou-card__body strong {
+      color: var(--sbihm-black);
+    }
+
+    .thankyou-card__contact {
+      background: var(--sbihm-cream);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .thankyou-card__contact-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--sbihm-mute);
+      margin-bottom: 0.75rem;
+    }
+
+    .thankyou-card__contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-size: 0.95rem;
+      color: var(--sbihm-charcoal);
+      margin-bottom: 0.5rem;
+    }
+
+    .thankyou-card__contact-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .thankyou-card__contact-link {
+      color: var(--sbihm-red);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .thankyou-card__contact-link:hover {
+      text-decoration: underline;
+    }
+
+    .thankyou-card__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--sbihm-gold);
+      color: var(--sbihm-black);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.875rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .thankyou-card__cta:hover {
+      background: var(--sbihm-gold-light);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 480px) {
+      .thankyou-card {
+        padding: 2rem 1.25rem;
+      }
+
+      .thankyou-card__cta {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2X9CBQM" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- ===== SITE HEADER ===== -->
+  <header class="site-header" id="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="index.html" class="site-header__logo" aria-label="CIMS College Home">
+        <img src="assets/images/CIMS_logo.jpeg"
+          alt="CIMS College — Cambridge Institute of Management Studies, West Bengal" width="200" height="52"
+          loading="eager">
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+        <ul class="site-nav__list" role="list">
+          <li><a href="index.html#about" class="site-nav__link">About</a></li>
+          <li><a href="index.html#programme" class="site-nav__link">Programme</a></li>
+          <li><a href="index.html#placements" class="site-nav__link">Placements</a></li>
+          <li><a href="index.html#campus" class="site-nav__link">Campus Life</a></li>
+          <li><a href="index.html#fees" class="site-nav__link">Fees</a></li>
+          <li><a href="index.html#apply" class="site-nav__link">Apply</a></li>
+        </ul>
+      </nav>
+      <div class="site-header__actions">
+        <a href="index.html#apply" class="btn btn--gold">Apply Now</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== THANK YOU CONTENT ===== -->
+  <main id="main-content">
+    <section class="thankyou-page" aria-labelledby="thankyou-heading">
+      <div class="thankyou-card">
+
+        <!-- Success icon -->
+        <div class="thankyou-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="36" height="36">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+        </div>
+
+        <h1 class="thankyou-card__heading" id="thankyou-heading">
+          Thank You for Applying to CIMS Allied Health Science (Paramedical)
+        </h1>
+
+        <p class="thankyou-card__body">
+          We've received your enquiry. Our admissions team will reach out to you
+          <strong>within 24 hours</strong> with course details, fee structure, and next steps for admission.
+        </p>
+
+        <div class="thankyou-card__contact" role="complementary" aria-label="Contact details for urgent enquiries">
+          <p class="thankyou-card__contact-title">For urgent enquiries, contact us directly</p>
+
+          <div class="thankyou-card__contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"
+              aria-hidden="true">
+              <path
+                d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+            </svg>
+            <a href="tel:+918158881234" class="thankyou-card__contact-link">+91 8158881234</a>
+          </div>
+
+          <div class="thankyou-card__contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"
+              aria-hidden="true">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="M22 7l-10 7L2 7" />
+            </svg>
+            <a href="mailto:cambridge567@gmail.com" class="thankyou-card__contact-link">cambridge567@gmail.com</a>
+          </div>
+
+          <div class="thankyou-card__contact-item">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            <a href="https://wa.me/918158881234" class="thankyou-card__contact-link" target="_blank"
+              rel="noopener noreferrer">WhatsApp: +91 8158881234</a>
+          </div>
+        </div>
+
+        <a href="index.html" class="thankyou-card__cta">
+          ← Back to Home
+        </a>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__sub">
+      <div class="container">
+        <p class="site-footer__sub-text">
+          Copyright &copy; 2026 CIMS College &bull;
+          <a href="index.html" class="site-footer__sub-link">Privacy Policy</a> &bull;
+          <a href="index.html" class="site-footer__sub-link">Terms</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+
+</html>
