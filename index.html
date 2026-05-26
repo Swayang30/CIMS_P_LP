@@ -132,6 +132,58 @@
     <div class="success-toast__progress" aria-hidden="true"></div>
   </div>
 
+  <!-- Brochure Gate Modal -->
+  <div class="modal" id="brochure-modal" hidden role="dialog" aria-modal="true" aria-labelledby="brochure-modal-title">
+    <div class="modal__backdrop" id="brochure-modal-backdrop"></div>
+    <div class="modal__panel">
+      <button class="modal__close" id="brochure-modal-close" aria-label="Close brochure form">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <div class="brochure-modal__icon" aria-hidden="true">📄</div>
+      <h2 class="modal__title" id="brochure-modal-title">Get Your Free Brochure</h2>
+      <p class="modal__sub">Enter your details and instantly download the CIMS Allied Health Science Prospectus 2026.</p>
+
+      <form id="brochure-form" class="modal__form" novalidate>
+        <input type="hidden" name="landing_course" value="Allied Health Science (Paramedical)">
+        <input type="hidden" name="campus" value="Mecheda Campus, Purba Medinipur">
+        <input type="hidden" name="form_location" value="Brochure Download Modal">
+
+        <div class="form-field">
+          <label class="form-label" for="brochure-name">Full Name <span class="form-label__req" aria-hidden="true">*</span></label>
+          <input class="form-input" type="text" id="brochure-name" name="name" required autocomplete="name" placeholder="Your full name">
+          <span class="form-error" id="brochure-error-name" role="alert" aria-live="polite"></span>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="brochure-phone">Phone Number <span class="form-label__req" aria-hidden="true">*</span></label>
+          <input class="form-input" type="tel" id="brochure-phone" name="phone" required autocomplete="tel" placeholder="10-digit mobile number" inputmode="numeric" maxlength="10">
+          <span class="form-error" id="brochure-error-phone" role="alert" aria-live="polite"></span>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="brochure-email">Email Address <span class="form-label__req" aria-hidden="true">*</span></label>
+          <input class="form-input" type="email" id="brochure-email" name="email" required autocomplete="email" placeholder="you@example.com">
+          <span class="form-error" id="brochure-error-email" role="alert" aria-live="polite"></span>
+        </div>
+
+        <button type="submit" class="btn btn--gold btn--full" id="brochure-submit-btn">
+          Download Brochure →
+        </button>
+
+        <p class="brochure-modal__privacy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0110 0v4" />
+          </svg>
+          100% data privacy. No spam. We respect your information.
+        </p>
+      </form>
+    </div>
+  </div>
+
   <!-- ===== SECTION 1: Top Utility Bar ===== -->
   <div class="utility-bar" role="banner" aria-label="Admissions announcement">
     <div class="utility-bar__inner">
@@ -185,8 +237,7 @@
         </ul>
       </nav>
       <div class="site-header__actions">
-        <a href="assets/campus/Prospectus%20CIMS%202026.pdf" download="CIMS-Allied-Health-Science-Prospectus-2026.pdf"
-          class="btn btn--text">Download Brochure</a>
+        <button class="btn btn--text" data-brochure-trigger>Download Brochure</button>
         <a href="#apply" class="btn btn--primary" data-track="apply_cta_click" data-cta-location="header">Apply Now</a>
       </div>
       <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobile-drawer"
@@ -220,8 +271,7 @@
         </ul>
       </nav>
       <div class="mobile-drawer__ctas">
-        <a href="assets/campus/Prospectus%20CIMS%202026.pdf" download="CIMS-Allied-Health-Science-Prospectus-2026.pdf"
-          class="btn btn--gold btn--full">Download Brochure</a>
+        <button class="btn btn--gold btn--full" data-brochure-trigger>Download Brochure</button>
         <a href="#apply" class="btn btn--primary btn--full" data-track="apply_cta_click"
           data-cta-location="mobile-drawer">Apply Now — 2026 Batch</a>
       </div>
@@ -281,10 +331,9 @@
               data-cta-location="hero-primary">
               Apply Now →
             </a>
-            <a href="assets/campus/Prospectus%20CIMS%202026.pdf" download="CIMS-Allied-Health-Science-Prospectus-2026.pdf"
-              class="btn btn--outline-white btn--large">
+            <button class="btn btn--outline-white btn--large" data-brochure-trigger>
               Download Brochure ↓
-            </a>
+            </button>
           </div>
           <p class="hero__trust-micro">
             <span>&#10003; Free counselling within 5 minutes</span>
@@ -304,10 +353,12 @@
                 <p class="hero-form__subtitle">Fill in your details. Our counsellor will call you within 5 minutes.</p>
               </div>
 
-              <form class="hero-form__body" id="hero-enquiry-form" method="POST" action="#" data-cims-lead novalidate>
+              <form class="hero-form__body" id="hero-enquiry-form" method="POST" data-cims-lead novalidate>
                 <input type="hidden" name="landing_course" value="Allied Health Science (Paramedical)">
                 <input type="hidden" name="campus" value="Mecheda Campus, Purba Medinipur">
                 <input type="hidden" name="form_location" value="Hero Form">
+                <input type="hidden" name="page_url" value="https://cimsgroup.org/allied-health-science/">
+                <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none!important">
                 <!-- Full Name -->
                 <div class="hero-form__group" id="field-fullname">
                   <label for="hf-fullname" class="hero-form__label">Full Name <span
@@ -640,8 +691,7 @@
         </div>
 
         <div class="programme-ctas">
-          <a href="assets/campus/Prospectus%20CIMS%202026.pdf" download="CIMS-Allied-Health-Science-Prospectus-2026.pdf"
-            class="btn btn--gold">Download Full Curriculum PDF ↓</a>
+          <button class="btn btn--gold" data-brochure-trigger>Download Full Curriculum PDF ↓</button>
           <a href="#apply" class="btn btn--outline-red" data-track="apply_cta_click"
             data-cta-location="programme-section">Talk to a Counsellor</a>
         </div>
@@ -1343,15 +1393,16 @@
 
         <div class="apply-right">
           <div class="apply-form-wrap" id="apply-form-wrap">
-            <form class="apply-form" id="apply-form" method="POST" action="#" data-cims-lead data-download-brochure
+            <form class="apply-form" id="apply-form" method="POST" data-cims-lead data-download-brochure
               novalidate aria-label="Allied Health Science (Paramedical) admission enquiry form">
               <input type="hidden" name="landing_course" value="Allied Health Science (Paramedical)">
               <input type="hidden" name="form_location" value="Main Enquiry Form">
+              <input type="hidden" name="page_url" value="https://cimsgroup.org/allied-health-science/">
 
               <!-- Honeypot — hidden from humans, catches bots -->
-              <div class="apply-form__honeypot" aria-hidden="true">
-                <label for="hp-website">Website</label>
-                <input type="text" id="hp-website" name="website" tabindex="-1" autocomplete="off">
+              <div class="apply-form__honeypot" aria-hidden="true" style="display:none!important">
+                <label for="hp-honey">Website</label>
+                <input type="text" id="hp-honey" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none!important">
               </div>
 
               <div id="form-error-message" class="form-error-banner" role="alert" aria-live="assertive" hidden></div>
@@ -1424,7 +1475,7 @@
               </div>
 
               <label class="form-checkbox-label">
-                <input type="checkbox" id="field-whatsapp-optin" name="whatsapp_optin" value="Yes" checked>
+                <input type="checkbox" id="field-whatsapp-optin" name="wa_optin" value="Yes" checked>
                 <span>Send me admission updates on WhatsApp</span>
               </label>
 

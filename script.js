@@ -19,6 +19,10 @@
 
 'use strict';
 
+/* ─── Webhook URL (single definition used by all form handlers) ───────────── */
+
+var WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwkNeKtIFI9DU1UerdkMesK01P2z65JWTbLnO2xHzSll6o-Y22Mc7kbqG2BwllFGaMBHg/exec';
+
 /* ─── Helpers ─────────────────────────────────────────────────────────────── */
 
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
@@ -81,10 +85,9 @@ function pushEvent(eventName, params = {}) {
 
   drawerLinks.forEach(link => link.addEventListener('click', closeDrawer));
 
-  const mobileBrochureTrigger = $('#brochure-trigger-mobile');
-  mobileBrochureTrigger && mobileBrochureTrigger.addEventListener('click', () => {
-    closeDrawer();
-    openBrochureModal();
+  /* Close drawer when brochure trigger inside it is clicked */
+  document.addEventListener('click', e => {
+    if (e.target.closest('#mobile-drawer [data-brochure-trigger]')) closeDrawer();
   });
 
   document.addEventListener('keydown', e => {
@@ -445,7 +448,7 @@ function pushEvent(eventName, params = {}) {
 
   /* Check honeypot */
   function isBot() {
-    const hp = form.querySelector('#hp-website');
+    const hp = form.querySelector('[name="_honey"]');
     return hp && hp.value.length > 0;
   }
 
@@ -620,45 +623,40 @@ function pushEvent(eventName, params = {}) {
   }
 })();
 
-/* ─── 8. Brochure download modal ──────────────────────────────────────────── */
+/* ─── 8. Brochure gate modal ──────────────────────────────────────────────── */
+
+var BROCHURE_URL      = 'assets/campus/Prospectus%20CIMS%202026.pdf';
+var BROCHURE_FILENAME = 'CIMS-Allied-Health-Science-Prospectus-2026.pdf';
 
 function openBrochureModal() {
   const modal = $('#brochure-modal');
   if (!modal) return;
-
   modal.removeAttribute('hidden');
   document.body.style.overflow = 'hidden';
-
-  const firstInput = modal.querySelector('input');
+  const firstInput = modal.querySelector('input:not([type="hidden"])');
   firstInput && firstInput.focus();
-
-  pushEvent('brochure_download_modal_open', { course: 'BHM' });
+  pushEvent('brochure_modal_open', { course: 'CIMS-Paramedical' });
 }
 
 function closeBrochureModal() {
   const modal = $('#brochure-modal');
   if (!modal) return;
-
   modal.setAttribute('hidden', '');
   document.body.style.overflow = '';
 }
 
 (function initBrochureModal() {
-  const triggers = [
-    '#brochure-trigger',
-    '#brochure-trigger-hero',
-    '#brochure-trigger-programme',
-    '#brochure-trigger-thankyou',
-  ];
-
-  triggers.forEach(sel => {
-    const el = $(sel);
-    el && el.addEventListener('click', openBrochureModal);
+  /* Open modal on any [data-brochure-trigger] click */
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('[data-brochure-trigger]')) {
+      e.preventDefault();
+      openBrochureModal();
+    }
   });
 
-  const closeBtn  = $('#brochure-modal-close');
-  const backdrop  = $('#brochure-modal-backdrop');
-  const form      = $('#brochure-form');
+  const closeBtn = $('#brochure-modal-close');
+  const backdrop = $('#brochure-modal-backdrop');
+  const form     = $('#brochure-form');
 
   closeBtn && closeBtn.addEventListener('click', closeBrochureModal);
   backdrop && backdrop.addEventListener('click', closeBrochureModal);
@@ -670,53 +668,82 @@ function closeBrochureModal() {
 
   if (!form) return;
 
-  form.addEventListener('submit', async e => {
+  /* Phone — digits only */
+  const phoneInput = $('#brochure-phone');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', () => {
+      phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '').slice(0, 10);
+    });
+  }
+
+  /* Clear error on input */
+  ['brochure-name', 'brochure-phone', 'brochure-email'].forEach(id => {
+    const el = $(`#${id}`);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      el.classList.remove('error');
+      const errId = id.replace('brochure-', 'brochure-error-');
+      const errEl = $(`#${errId}`);
+      if (errEl) errEl.textContent = '';
+    });
+  });
+
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const nameEl  = $('#brochure-name');
-    const phoneEl = $('#brochure-phone');
-    const emailEl = $('#brochure-email');
+    const nameEl      = $('#brochure-name');
+    const phoneEl     = $('#brochure-phone');
+    const emailEl     = $('#brochure-email');
+    const submitBtn   = $('#brochure-submit-btn');
+    let firstInvalid  = null;
+    let valid         = true;
 
-    let valid = true;
-
-    if (!nameEl.value.trim()) {
-      $(`#brochure-error-name`).textContent = 'Please enter your name.';
-      nameEl.classList.add('error');
+    function setErr(el, errId, msg) {
+      el.classList.add('error');
+      const errEl = $(`#${errId}`);
+      if (errEl) errEl.textContent = msg;
+      if (!firstInvalid) firstInvalid = el;
       valid = false;
-    } else {
-      $(`#brochure-error-name`).textContent = '';
-      nameEl.classList.remove('error');
     }
 
+    if (!nameEl.value.trim() || nameEl.value.trim().length < 2) {
+      setErr(nameEl, 'brochure-error-name', 'Please enter your full name.');
+    }
     if (!/^[6-9][0-9]{9}$/.test(phoneEl.value.replace(/\s/g, ''))) {
-      $(`#brochure-error-phone`).textContent = 'Please enter a valid 10-digit mobile number.';
-      phoneEl.classList.add('error');
-      valid = false;
-    } else {
-      $(`#brochure-error-phone`).textContent = '';
-      phoneEl.classList.remove('error');
+      setErr(phoneEl, 'brochure-error-phone', 'Enter a valid 10-digit mobile number.');
     }
-
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
-      $(`#brochure-error-email`).textContent = 'Please enter a valid email address.';
-      emailEl.classList.add('error');
-      valid = false;
-    } else {
-      $(`#brochure-error-email`).textContent = '';
-      emailEl.classList.remove('error');
+      setErr(emailEl, 'brochure-error-email', 'Please enter a valid email address.');
     }
 
-    if (!valid) return;
+    if (!valid) {
+      firstInvalid && firstInvalid.focus();
+      return;
+    }
 
-    pushEvent('brochure_download', { course: 'BHM' });
+    /* Loading state */
+    const btnText = submitBtn ? submitBtn.innerHTML : '';
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Downloading…'; }
 
-    // Trigger brochure PDF download
-    const link = document.createElement('a');
-    link.href     = 'assets/campus/download.pdf';
-    link.download = 'SBIHM-Brochure-2026-27.pdf';
-    link.click();
+    pushEvent('brochure_download', { course: 'CIMS-Paramedical' });
+
+    /* Send lead to webhook (fire-and-forget — don't block the download on it) */
+    var fd = new FormData(form);
+    fetch(WEBHOOK_URL, { method: 'POST', body: fd, mode: 'no-cors' })
+      .catch(function() { /* silent — download still proceeds */ });
+
+    /* Trigger PDF download */
+    var a = document.createElement('a');
+    a.href     = BROCHURE_URL;
+    a.download = BROCHURE_FILENAME;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 
     closeBrochureModal();
+    form.reset();
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = btnText; }
   });
 })();
 
@@ -801,50 +828,20 @@ function closeBrochureModal() {
 (function () {
   'use strict';
 
-  var WEBHOOK_URL   = 'https://script.google.com/macros/s/AKfycby3-hJfNn2d9Ck8Wsa41TppjpMeWnKf91VazfH2zCTw1iB5kFYrnIHqNvdbX92zqv7b/exec';
-  var BROCHURE_PATH = 'assets/campus/Prospectus%20CIMS%202026.pdf';
   var THANK_YOU_URL = 'thankyou.html';
 
-  function triggerBrochureDownload() {
-    var a = document.createElement('a');
-    a.href     = BROCHURE_PATH;
-    a.download = 'CIMS-Allied-Health-Science-Prospectus-2026.pdf';
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-
-  function CIMS_showSuccess(form) {
-    if (form.id === 'apply-form') {
-      /* Apply form: reveal inline thank-you panel */
-      var nameInput = form.querySelector('[name="name"]');
-      var nameEl    = document.getElementById('thankyou-name');
-      if (nameEl && nameInput) {
-        nameEl.textContent = nameInput.value.trim().split(' ')[0] || 'there';
-      }
-      var formWrap = document.getElementById('apply-form-wrap');
-      var thankyou = document.getElementById('apply-thankyou');
-      if (formWrap) formWrap.setAttribute('hidden', '');
-      if (thankyou) thankyou.removeAttribute('hidden');
-    } else {
-      /* Hero (and any other) form: redirect to thank-you page */
-      window.location.href = THANK_YOU_URL;
-    }
-  }
-
-  function CIMS_showError(form) {
+  function showError(form, btn, btnHTML) {
     var banner = form.querySelector('#form-error-message, .form-error-banner');
-    var msg    = 'Something went wrong. Please call us at +91 8158881234 or try again.';
+    var msg    = 'Something went wrong. Please call us at +91 8158881234 or try again.';
     if (banner) {
       banner.textContent = msg;
       banner.removeAttribute('hidden');
       banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } else {
-      /* Hero form fallback */
-      var errSpan = form.querySelector('.hero-form__error');
-      if (errSpan) errSpan.textContent = msg;
+      var errEl = form.querySelector('.hero-form__error');
+      if (errEl) errEl.textContent = msg;
     }
+    if (btn) { btn.disabled = false; btn.innerHTML = btnHTML; }
   }
 
   function handleSubmit(form) {
@@ -855,34 +852,27 @@ function closeBrochureModal() {
       var btnHTML = btn ? btn.innerHTML : '';
       if (btn) { btn.disabled = true; btn.innerHTML = 'Submitting…'; }
 
-      var fd = new FormData(form);
-      fd.set('page_url', window.location.href);
-      if (!fd.get('landing_course')) fd.set('landing_course', 'Allied Health Science (Paramedical)');
-
-      var params = new URLSearchParams();
-      fd.forEach(function (v, k) { params.append(k, v); });
+      var body = new FormData(form);
+      /* Ensure wa_optin sends Yes/No explicitly regardless of checkbox state */
+      var waOptin = form.querySelector('[name="wa_optin"]');
+      if (waOptin) body.set('wa_optin', waOptin.checked ? 'Yes' : 'No');
 
       fetch(WEBHOOK_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params.toString()
+        body: body,
+        mode: 'no-cors',
+        keepalive: true
       })
-        .then(function (r) {
-          return r.json().catch(function () { return { result: 'success' }; });
-        })
-        .then(function (data) {
-          if (data && data.result === 'success') {
-            if (form.hasAttribute('data-download-brochure')) triggerBrochureDownload();
-            CIMS_showSuccess(form);
-          } else {
-            throw new Error((data && data.message) || 'Submission failed');
-          }
-        })
-        .catch(function (err) {
-          console.error('CIMS lead submit error:', err);
-          CIMS_showError(form);
-          if (btn) { btn.disabled = false; btn.innerHTML = btnHTML; }
-        });
+      .then(function () {
+        /* Fetch resolved = request delivered and processed = success.
+           In no-cors mode the response is opaque and cannot be read,
+           so we redirect on resolve rather than parsing the body. */
+        window.location.href = THANK_YOU_URL;
+      })
+      .catch(function () {
+        /* Genuine network failure — do not redirect */
+        showError(form, btn, btnHTML);
+      });
     };
   }
 

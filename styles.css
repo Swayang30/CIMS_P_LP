@@ -3630,6 +3630,21 @@ button {
   display: block;
 }
 
+.brochure-modal__icon {
+  font-size: 2.25rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.brochure-modal__privacy {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--sbihm-mute);
+  margin-top: 0.75rem;
+}
+
 /* ─── 26. Scroll-to-top ───────────────────────────────────────────────────── */
 
 .scroll-to-top {
